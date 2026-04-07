@@ -9,6 +9,7 @@ namespace Genspil_Projekt
         private string _name;
         private string _genre;
         private int _playerCount;
+        private int _amount;
 
         private List<GameEdition> _editionList;
 
@@ -28,32 +29,35 @@ namespace Genspil_Projekt
             get { return _playerCount; }
             set { _playerCount = value; }
         }
+        public int Amount
+        {
+            get { return _amount; }
+            set { _amount = value; }
+        }
 
-
-        public Game(string name, string genre, int playerCount)
+        public Game(string name, string genre, int playerCount, int amount)
         {
             Name = name;
             Genre = genre;
             PlayerCount = playerCount;
-        
+            Amount = amount;
+            _editionList = new List<GameEdition>();
         }
 
-        public bool IsAvailable()
-        {
-            if (_editionList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            } 
-        }
+        
 
         public List<GameEdition> GetAvailableEditions()
         {
             return _editionList;
         }
+
+        public void addEdition(GameEdition edition)
+        {
+            
+            _editionList.Add(edition);
+            _amount++;
+        }
+
 
 
     }

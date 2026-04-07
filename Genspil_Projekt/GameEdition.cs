@@ -42,10 +42,10 @@ namespace Genspil_Projekt
             _price = CalculatePrice();
         }
 
-        5 % ikke åbnet
-        15 % god stand
-        25 % Ok stand
-        50 % dårlig stand
+        //5 % ikke åbnet
+        //15 % god stand
+        //25 % Ok stand
+        //50 % dårlig stand
 
         public double CalculatePrice();
         {
