@@ -8,16 +8,8 @@ namespace Genspil_Projekt
     {
         private string _edition;
         private string _quality;
-        private double price;
-        private double _basePrice; 
-
-        public GameEdition(string edition, string quality, double basePrice)
-        {
-            _edition = edition;
-            _quality = quality;
-            _basePrice = basePrice;
-            price = CalculatePrice();
-        }   
+        private double _price;
+        private double _basePrice;
 
         public string Edition
         {
@@ -35,15 +27,32 @@ namespace Genspil_Projekt
         {
             get { return _basePrice; }
             set { _basePrice = value; }
-            
+
         }
         public double Price
         {
-            get { return price; }
+            get { return _price; }
+        }
+
+        public GameEdition(string Edition, string Quality, double BasePrice, Game game)
+        {
+            _edition = Edition;
+            _quality = Quality;
+            _basePrice = BasePrice;
+            _price = CalculatePrice();
+        }
+
+        5 % ikke åbnet
+        15 % god stand
+        25 % Ok stand
+        50 % dårlig stand
+
+        public double CalculatePrice();
+        {
+        
+
         }
 
 
-
-        {
     }
 }

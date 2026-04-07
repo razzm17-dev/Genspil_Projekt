@@ -10,7 +10,7 @@ namespace Genspil_Projekt
         private string _genre;
         private int _playerCount;
 
-        private List<Edition> _editionList;
+        private List<GameEdition> _editionList;
 
         public string Name
         { 
