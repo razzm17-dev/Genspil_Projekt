@@ -10,7 +10,34 @@ namespace Genspil_Projekt
         private string _genre;
         private int _playerCount;
 
-        private List
+        private List<Edition> _editionList;
+
+        public string Name
+        { 
+        get { return _name; }
+        set { _name = value; }
+        }
+
+        public string Genre
+        {
+            get { return _genre; }
+            set { _genre = value; }
+        }
+        public int PlayerCount
+        {
+            get { return _playerCount; }
+            set { _playerCount = value; }
+        }
+
+
+        public Game(string name, string genre, int playerCount)
+        {
+            Name = name;
+            Genre = genre;
+            PlayerCount = playerCount;
+        
+        }
+
 
     }
 }
