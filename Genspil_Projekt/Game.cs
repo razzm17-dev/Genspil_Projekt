@@ -38,6 +38,23 @@ namespace Genspil_Projekt
         
         }
 
+        public bool IsAvailable()
+        {
+            if (_editionList.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            } 
+        }
+
+        public List<GameEdition> GetAvailableEditions()
+        {
+            return _editionList;
+        }
+
 
     }
 }
