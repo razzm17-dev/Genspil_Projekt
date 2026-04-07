@@ -50,5 +50,13 @@ namespace Genspil_Projekt
                 _requestList.Remove(request);
             }
         }
+
+        public void PrintGameList()
+        {
+            foreach (Game game in _gameList)
+            {
+                Console.WriteLine($"Name: {game.Name}\nGenre: {game.Genre}\nPlayer Count: {game.PlayerCount}");
+            }
+        }
     }
 }
