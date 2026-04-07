@@ -8,7 +8,7 @@ namespace Genspil_Projekt
     {
         private string _name;
         private string _genre;
-        private int _playerCount;
+        private string _playerCount;
         private int _amount;
 
         private List<GameEdition> _editionList;
@@ -24,7 +24,7 @@ namespace Genspil_Projekt
             get { return _genre; }
             set { _genre = value; }
         }
-        public int PlayerCount
+        public string PlayerCount
         {
             get { return _playerCount; }
             set { _playerCount = value; }
@@ -35,12 +35,12 @@ namespace Genspil_Projekt
             set { _amount = value; }
         }
 
-        public Game(string name, string genre, int playerCount, int amount)
+        public Game(string name, string genre, string playerCount)
         {
             Name = name;
             Genre = genre;
             PlayerCount = playerCount;
-            Amount = amount;
+            Amount =0;
             _editionList = new List<GameEdition>();
         }
 

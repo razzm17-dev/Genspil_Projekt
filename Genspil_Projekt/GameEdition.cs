@@ -7,7 +7,7 @@ namespace Genspil_Projekt
     public class GameEdition
     {
         private string _edition;
-        private string _quality;
+        private string _condition;
         private double _price;
         private double _basePrice;
 
@@ -17,10 +17,10 @@ namespace Genspil_Projekt
             set { _edition = value; }
         }
 
-        public string Quality
+        public string Condition
         {
-            get { return _quality; }
-            set { _quality = value; }
+            get { return _condition; }
+            set { _condition = value; }
         }
 
         public double BasePrice
@@ -34,12 +34,12 @@ namespace Genspil_Projekt
             get { return _price; }
         }
 
-        public GameEdition(string Edition, string Quality, double BasePrice, Game game)
+        public GameEdition(string Edition, string Condition, double BasePrice, Game game)
         {
             _edition = Edition;
-            _quality = Quality;
+            _condition = Condition;
             _basePrice = BasePrice;
-            _price = CalculatePrice();
+            _price = CalculatePrice( BasePrice,  Condition);
         }
 
         //5 % ikke åbnet
@@ -47,9 +47,28 @@ namespace Genspil_Projekt
         //25 % Ok stand
         //50 % dårlig stand
 
-        public double CalculatePrice();
+
+        static double CalculatePrice(double BasePrice, string Condition)
         {
-        
+            double discount = 0;
+
+            switch (Condition.ToLower())
+            {
+                case "ikke åbnet":
+                    discount = 0.05;
+                    break;
+                case "god stand":
+                    discount = 0.15;
+                    break;
+                case "ok stand":
+                    discount = 0.25;
+                    break;
+                case "dårlig stand":
+                    discount = 0.50;
+                    break;
+            }
+
+            return BasePrice * (1 - discount);
 
         }
 
