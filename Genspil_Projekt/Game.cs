@@ -10,7 +10,7 @@ namespace Genspil_Projekt
         private string _genre;
         private int _playerCount;
 
-        private List<Edition> _editionList;
+        private List<GameEdition> _editionList;
 
         public string Name
         { 
@@ -36,6 +36,23 @@ namespace Genspil_Projekt
             Genre = genre;
             PlayerCount = playerCount;
         
+        }
+
+        public bool IsAvailable()
+        {
+            if (_editionList.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            } 
+        }
+
+        public List<GameEdition> GetAvailableEditions()
+        {
+            return _editionList;
         }
 
 
