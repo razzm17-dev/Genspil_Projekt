@@ -10,6 +10,7 @@ namespace Genspil_Projekt
         private string _genre;
         private string _playerCount;
         private int _amount;
+        
 
         private List<GameEdition> _editionList;
 
@@ -29,18 +30,20 @@ namespace Genspil_Projekt
             get { return _playerCount; }
             set { _playerCount = value; }
         }
+
         public int Amount
         {
             get { return _amount; }
             set { _amount = value; }
         }
 
+
         public Game(string name, string genre, string playerCount)
         {
             Name = name;
             Genre = genre;
             PlayerCount = playerCount;
-            Amount =0;
+            Amount = 0;
             _editionList = new List<GameEdition>();
         }
 
@@ -50,7 +53,7 @@ namespace Genspil_Projekt
         {
             foreach (var ed in _editionList)
             {
-            Console.WriteLine ($"Udgave: {ed.Edition}, Stand: {ed.Condition}, Pris: {ed.Price} kr.\n");
+            Console.WriteLine ($"Udgave: {ed.Edition}, Stand: {ed.Condition}, Pris: {ed.Price} kr., Antal: {Amount}\n");
 
             }
         }
