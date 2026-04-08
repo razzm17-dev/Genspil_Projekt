@@ -18,19 +18,6 @@ namespace Genspil_Projekt
             _requestList = new List<Request>();
         }
 
-        /*public void AddGame(Game game)
-        {
-            if (_gameList.Count() > 1)
-            {
-                _gameList.Add(game);
-            }
-            else
-            {
-                _gameList.Add(game);
-                _gameList = _gameList.OrderBy(game => game.Name).ToList();
-            }
-        }*/
-
         // Menu metode som tager en liste af string og lader brugeren vælge imellem dem ved hjælp af piletasterne. Returnerer det valgte nummer.
         public int Menu(List<string> mulighedstext)
         {
@@ -373,14 +360,6 @@ namespace Genspil_Projekt
                  _requestList.Remove(request);
              }
          }
-
-         /* public void PrintGameList()
-          {
-              foreach (Game game in _gameList)
-              {
-                  Console.WriteLine($"Name: {game.Name}\nGenre: {game.Genre}\nPlayer Count: {game.PlayerCount} \nAntal: {game.Amount}");
-              }
-          }*/
 
 
 

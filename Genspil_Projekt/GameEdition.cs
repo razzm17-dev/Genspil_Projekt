@@ -42,17 +42,12 @@ namespace Genspil_Projekt
             _price = CalculatePrice( BasePrice,  Condition);
         }
 
-
-
-
-
-
         //5 % ikke åbnet
         //15 % god stand
         //25 % Ok stand
         //50 % dårlig stand
 
-
+        // Metode til at beregne prisen baseret på stand og basepris
         static double CalculatePrice(double BasePrice, string Condition)
         {
             double discount = 0;
