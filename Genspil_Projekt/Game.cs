@@ -46,9 +46,13 @@ namespace Genspil_Projekt
 
         
 
-        public List<GameEdition> GetAvailableEditions()
+        public void GetAvailableEditions()
         {
-            return _editionList;
+            foreach (var ed in _editionList)
+            {
+            Console.WriteLine ($"Udgave: {ed.Edition}, Stand: {ed.Condition}, Pris: {ed.Price} kr.\n");
+
+            }
         }
 
         public void addEdition(GameEdition edition)
