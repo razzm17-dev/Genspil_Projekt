@@ -55,14 +55,33 @@ namespace Genspil_Projekt
             }
         }
 
-        public void addEdition(GameEdition edition)
+        // Returnerer editions som en læsbar samling så StorageManager kan iterere
+        public IEnumerable<GameEdition> GetEditions()
         {
-            
-            _editionList.Add(edition);
-            _amount++;
+            return _editionList.AsReadOnly();
         }
 
 
+        // Tilføjer edition hvis den ikke allerede findes (sammenligner Edition, Condition og Price)
+        public void addEdition(GameEdition edition)
+        {
+            if (edition == null) return;
 
+            bool exists = _editionList.Any(ed =>
+                string.Equals(ed.Edition, edition.Edition, StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(ed.Condition, edition.Condition, StringComparison.OrdinalIgnoreCase) &&
+                ed.Price == edition.Price);
+
+            if (!exists)
+            {
+                _editionList.Add(edition);
+                Amount = _editionList.Count;
+            }
+        }
     }
 }
+
+
+
+    
+

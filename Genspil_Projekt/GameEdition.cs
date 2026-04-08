@@ -42,6 +42,11 @@ namespace Genspil_Projekt
             _price = CalculatePrice( BasePrice,  Condition);
         }
 
+
+
+
+
+
         //5 % ikke åbnet
         //15 % god stand
         //25 % Ok stand

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Genspil_Projekt
@@ -48,36 +49,93 @@ namespace Genspil_Projekt
             }
         }
 
-
-        // søger efter navn på et enektl spil 
-        public Game SearchForName(string name)
+        // Fleksibel søgning på navn, genre, maxPrice og playerCount
+        // Indsæt i StorageManager (kræver using System.Linq;)
+        // Placer i StorageManager.cs (kræver using System.Linq;)
+        public List<Game> SearchForGame(string query)
         {
-            Console.WriteLine($"Søgte efter: '{name}'");
+            var results = new List<Game>();
 
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(query))
             {
-                Console.WriteLine("Søgen er tom eller kun mellemrum. Ingen søgning udført.");
-                return null;
+                Console.WriteLine("Søgeordet er tomt. Ingen søgning udført.");
+                return results;
             }
 
-            foreach (var g in _gameList)
+            query = query.Trim();
+
+            // 1) Først: delvis match på navn (case-insensitive)
+            var nameMatches = _gameList
+                .Where(g => !string.IsNullOrWhiteSpace(g.Name) &&
+                            g.Name.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
+                .ToList();
+
+            if (nameMatches.Count > 0)
             {
-                Console.WriteLine($"Tjekker: '{g.Name ?? "NULL"}'");
-                if (g.Name != null && g.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                Console.WriteLine($"Navnsmatch for '{query}' — fundet {nameMatches.Count} spil:");
+                foreach (var g in nameMatches)
                 {
-                    Console.WriteLine($"Match fundet: {g.Name} - Antal: {g.Amount}");
-                    // Print editions under spillet
+                    Console.WriteLine($"{g.Name} - {g.Genre} - {g.PlayerCount} - Antal: {g.Amount}");
                     g.GetAvailableEditions();
-                    return g;
+                    results.Add(g);
+                }
+                return results;
+            }
+
+            // 2) Hvis ingen navnsmatch, prøv delvis match på genre (case-insensitive)
+            var genreMatches = _gameList
+                .Where(g => !string.IsNullOrWhiteSpace(g.Genre) &&
+                            g.Genre.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
+                .ToList();
+
+            if (genreMatches.Count > 0)
+            {
+                Console.WriteLine($"Genre‑match for '{query}' — fundet {genreMatches.Count} spil:");
+                foreach (var g in genreMatches)
+                {
+                    Console.WriteLine($"{g.Name} - {g.Genre} - {g.PlayerCount} - Antal: {g.Amount}");
+                    g.GetAvailableEditions();
+                    results.Add(g);
                 }
             }
+            else
+            {
+                Console.WriteLine($"Intet match fundet for '{query}' (hverken navn eller genre).");
+            }
 
-            Console.WriteLine("Intet match fundet.");
-            return null;
+            return results;
         }
 
 
-        public List<Game> SearchForGenre(string genre)
+        // søger efter navn på et enektl spil 
+        /*public Game SearchForName(string name)
+         {
+             Console.WriteLine($"Søgte efter: '{name}'");
+
+             if (string.IsNullOrWhiteSpace(name))
+             {
+                 Console.WriteLine("Søgen er tom eller kun mellemrum. Ingen søgning udført.");
+                 return null;
+             }
+
+             foreach (var g in _gameList)
+             {
+                 Console.WriteLine($"Tjekker: '{g.Name ?? "NULL"}'");
+                 if (g.Name != null && g.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                 {
+                     Console.WriteLine($"Match fundet: {g.Name} - Antal: {g.Amount}");
+                     // Print editions under spillet
+                     g.GetAvailableEditions();
+                     return g;
+                 }
+             }
+
+             Console.WriteLine("Intet match fundet.");
+             return null;
+         }*/
+
+        // søger efter genre
+        /*public List<Game> SearchForGenre(string genre)
         {
             Console.WriteLine($"Søger efter den gældende genre: {genre} \n");
 
@@ -106,7 +164,8 @@ namespace Genspil_Projekt
 
             if (matches.Count == 0) Console.WriteLine("Kunne ikke finde et match på genre.");
             return matches;
-        }
+        }*/
+
 
 
 
@@ -155,6 +214,9 @@ namespace Genspil_Projekt
              }
          }*/
 
+
+
+
         //Printer alle game
         public IEnumerable<Game> GetAllGames() => _gameList.AsReadOnly();
 
@@ -168,7 +230,7 @@ namespace Genspil_Projekt
             foreach (Game game in _gameList)
             {
                 Console.WriteLine($"Name: {game.Name}\nGenre: {game.Genre}\nPlayer Count: {game.PlayerCount} \nAntal: {game.Amount}");
-                game.GetAvailableEditions();// printer Editions ind under Game list. 
+                game.GetAvailableEditions();// printer Editions ud ind under Game list. 
                 Console.WriteLine();
             }
         }
