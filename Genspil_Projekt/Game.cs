@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Text;
 
 namespace Genspil_Projekt
@@ -37,7 +38,7 @@ namespace Genspil_Projekt
             set { _amount = value; }
         }
 
-
+    
         public Game(string name, string genre, string playerCount)
         {
             Name = name;
@@ -47,26 +48,8 @@ namespace Genspil_Projekt
             _editionList = new List<GameEdition>();
         }
 
-        
-
-        public void GetAvailableEditions()
-        {
-            foreach (var ed in _editionList)
-            {
-            Console.WriteLine ($"Udgave: {ed.Edition}, Stand: {ed.Condition}, Pris: {ed.Price} kr., Antal: {Amount}\n");
-
-            }
-        }
-
-        // Returnerer editions som en læsbar samling så StorageManager kan iterere
-        public IEnumerable<GameEdition> GetEditions()
-        {
-            return _editionList.AsReadOnly();
-        }
-
-
-        // Tilføjer edition hvis den ikke allerede findes (sammenligner Edition, Condition og Price)
-        public void addEdition(GameEdition edition)
+        // Tilføjer edition hvis den ikke allerede findes (sammenligner Edition, Condition og Price) eller retter antallet hvis den findes
+        public void AddEdition(GameEdition edition)
         {
             if (edition == null) return;
 
@@ -81,6 +64,16 @@ namespace Genspil_Projekt
                 Amount = _editionList.Count;
             }
         }
+
+        public void GetAvailableEditions()
+        {
+            foreach (var ed in _editionList)
+            {
+            Console.WriteLine ($"Udgave: {ed.Edition}, Stand: {ed.Condition}, Pris: {ed.Price} kr., Antal: {Amount}\n");
+
+            }
+        }
+        
     }
 }
 

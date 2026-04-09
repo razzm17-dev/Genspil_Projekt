@@ -32,6 +32,7 @@ namespace Genspil_Projekt
         public double Price
         {
             get { return _price; }
+            set { _price = value; }
         }
 
         public GameEdition(string Edition, string Condition, double BasePrice, Game game)
@@ -39,7 +40,7 @@ namespace Genspil_Projekt
             _edition = Edition;
             _condition = Condition;
             _basePrice = BasePrice;
-            _price = CalculatePrice( BasePrice,  Condition);
+            _price = CalculatePrice(BasePrice, Condition);
         }
 
         //5 % ikke åbnet

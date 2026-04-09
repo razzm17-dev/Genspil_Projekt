@@ -17,18 +17,14 @@ namespace Genspil_Projekt
         public DateTime Date { get => _date; set => _date = value; }
         public string CustomerCriteria { get => _customerCriteria; set => _customerCriteria = value; }
 
-        public Request(string name, string status, string contactInfo, DateTime date)
+        public Request(string name, string contactInfo, DateTime date, string customerCriteria)
         {
             _name = name;
-            _status = status;
             _contactInfo = contactInfo;
-            _date = date;
-           // _customerCriteria = customerCriteria;
+            _date = DateTime.Now;
+            _customerCriteria = customerCriteria;
         }
 
-        public void GetRequestDetails() 
-        { 
-            Console.WriteLine($"Name: {_name}\nStatus: {_status}\nContact Info: {_contactInfo}\nDate: {_date}\nCustomer Criteria: {_customerCriteria}");
-        }
+     
     }
 }

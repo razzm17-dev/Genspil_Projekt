@@ -74,7 +74,7 @@ namespace Genspil_Projekt
         }
 
 
-        //Lader bruger indtaste oplysninger om et spil og opretter et game objekt. Anvender herefter AddGame for at tilføje det til listen.
+        //Lader bruger indtaste oplysninger om et nyt spil.
         public void AddGameFromUserInput()
         {
             Console.Clear();
@@ -87,19 +87,17 @@ namespace Genspil_Projekt
             Console.Write("Indtast antal spillere (fx 2 eller 2-4): ");
             string playerCount = Console.ReadLine();
 
-            Game newGame = new Game(name,genre,playerCount)
-            {
-                Name = name,
-                Genre = genre,
-                PlayerCount = playerCount
-            };
-
-            AddGame(newGame);
+            //Opretter et Game-objekt med de indtastede oplysninger.
+            Game newGame = new Game(name, genre, playerCount);
+           
+           
+            //Anvender herefter AddGame for at tilføje det til listen.
+            AddGameToList(newGame);
 
             Console.WriteLine("Spillet er tilføjet.");
         }
         //Tilføjer et spil til listen og sorterer i listen alfabetisk efter spillets navn. 
-        public void AddGame(Game game)
+        public void AddGameToList(Game game)
         {
             if (game == null) return;
            if (!_gameList.Contains(game))
@@ -109,7 +107,7 @@ namespace Genspil_Projekt
             }
         }
         //Opretter liste over spil som brugeren kan vælge imellem. 
-        public Game SelectGameFromList()
+        public Game RemoveGameFromList()
         {
             if (_gameList.Count == 0)
             {
@@ -132,7 +130,7 @@ namespace Genspil_Projekt
         {
             Console.Clear();
 
-            Game selected = SelectGameFromList();
+            Game selected = RemoveGameFromList();
             if (selected == null)
             {
                 Console.WriteLine("Ingen spil valgt.");
@@ -151,9 +149,76 @@ namespace Genspil_Projekt
             }
         }
 
+        //Opretter liste over spil som brugeren kan vælge imellem.
+        public Game SelectGameTypeFromList()
+        {
+            if (_gameList.Count == 0)
+            {
+                Console.WriteLine("Der er ingen spil i listen.");
+                return null;
+            }
+
+            Console.WriteLine("\nVælg et spil:");
+            for (int i = 0; i < _gameList.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {_gameList[i].Name}");
+            }
+
+            int choice;
+            while (true)
+            {
+                Console.Write("Indtast nummer: ");
+                if (int.TryParse(Console.ReadLine(), out choice) &&
+                    choice >= 1 && choice <= _gameList.Count)
+                {
+                    return _gameList[choice - 1];
+                }
+
+                Console.WriteLine("Ugyldigt valg. Prøv igen.");
+            }
+        }
+        public void CreateEditionFromUserInput()
+        {
+            // 1) Brugeren vælger spillet
+            
+            Game game = SelectGameTypeFromList();
+            if (game == null)
+            {
+                Console.WriteLine("Intet spil valgt.");
+                return;
+            }
+
+            // 2) Brugeren indtaster edition-data
+            Console.Clear();
+            Console.Write("Indtast edition navn: ");
+            string editionName = Console.ReadLine();
+
+            Console.Write("Indtast stand (Ikke åbnet, God stand, Ok stand eller Dårlig stan): ");
+            string condition = Console.ReadLine();
+
+            double price;
+            while (true)
+            {
+                Console.Write("Indtast basepris: ");
+                if (double.TryParse(Console.ReadLine(), out price))
+                    break;
+
+                Console.WriteLine("Ugyldig pris. Prøv igen.");
+            }
+
+            //  Opretter GameEdition objekt
+            var newEdition = new GameEdition(editionName, condition, price, game);
+
+            // Tilføjer edition til spillet
+            game.AddEdition(newEdition);
+
+            Console.WriteLine("Edition tilføjet!");
+        }
+     
+        
+
         // Fleksibel søgning på navn, genre, maxPrice og playerCount
-        // Indsæt i StorageManager (kræver using System.Linq;)
-        // Placer i StorageManager.cs (kræver using System.Linq;)
+       
         public List<Game> SearchForGame(string query)
         {
             var results = new List<Game>();
@@ -208,91 +273,22 @@ namespace Genspil_Projekt
             return results;
         }
 
-
-        // søger efter navn på et enektl spil 
-        /*public Game SearchForName(string name)
-         {
-             Console.WriteLine($"Søgte efter: '{name}'");
-
-             if (string.IsNullOrWhiteSpace(name))
-             {
-                 Console.WriteLine("Søgen er tom eller kun mellemrum. Ingen søgning udført.");
-                 return null;
-             }
-
-             foreach (var g in _gameList)
-             {
-                 Console.WriteLine($"Tjekker: '{g.Name ?? "NULL"}'");
-                 if (g.Name != null && g.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-                 {
-                     Console.WriteLine($"Match fundet: {g.Name} - Antal: {g.Amount}");
-                     // Print editions under spillet
-                     g.GetAvailableEditions();
-                     return g;
-                 }
-             }
-
-             Console.WriteLine("Intet match fundet.");
-             return null;
-         }*/
-
-        // søger efter genre
-        /*public List<Game> SearchForGenre(string genre)
-        {
-            Console.WriteLine($"Søger efter den gældende genre: {genre} \n");
-
-            var matches = new List<Game>();
-
-            if (string.IsNullOrWhiteSpace(genre))
-            {
-                Console.WriteLine("Søgen er tom eller kun mellemrum: Udyldigt søgning");
-                return matches;
-            
-            }
-            
-            foreach(var g in _gameList)
-            {
-                Console.WriteLine($"Tjekker {g.Genre} og finder navn: {g.Name}");
-                if (g.Genre != null && g.Genre.Equals(genre, StringComparison.OrdinalIgnoreCase))
-                {
-                    Console.WriteLine($"Match fundet: {g.Name} - Genre: {g.Genre} - Antal: {g.Amount}");
-                    g.GetAvailableEditions();
-                    matches.Add(g);
-                }
-
-             
-
-            }
-
-            if (matches.Count == 0) Console.WriteLine("Kunne ikke finde et match på genre.");
-            return matches;
-        }*/
         // Lader brugeren indtaste oplysninger om en forespørgsel og opretter et request-objekt. Anvender herefter AddRequest for at tilføje det til listen.
         public void AddRequestFromUserInput()
         {
             Console.Clear();
-            Console.WriteLine("Titel på spil: ");
-            string title = Console.ReadLine();
+            Console.WriteLine("Navn på kunde: ");
+            string name = Console.ReadLine();
 
-            Console.WriteLine("Kontaktinformation: ");
+            Console.WriteLine("Kontaktinformation mail eller telefon: ");
             string contactinfo = Console.ReadLine();
+
+            Console.WriteLine("Navn på spil: ");
+            string customerCriteria = Console.ReadLine();
+
+            // opretter en forespørgsel med de indtastede oplysninger og den aktuelle dato.
+            Request request = new Request(name, contactinfo, DateTime.Now, customerCriteria);
             
-            Console.WriteLine("Dato for forespørgsel: ");
-            string dateInput = Console.ReadLine();
-
-            if (!DateTime.TryParse(dateInput, out DateTime date))
-            {
-                Console.WriteLine("Ugyldig dato. Request blev ikke oprettet.");
-                return;
-            }
-
-            // Opret request-objektet
-            Request request = new Request(name: title, status: "Åben", contactInfo: contactinfo, date: date)
-            {
-                Name = title,
-                Date = date
-
-            };
 
             AddRequest(request);
 
@@ -362,25 +358,28 @@ namespace Genspil_Projekt
          }
 
 
-
-
-        //Printer alle game
-        public IEnumerable<Game> GetAllGames() => _gameList.AsReadOnly();
-
         // Printer alle requets
-        public IEnumerable<Request> GetAllRequests() => _requestList.AsReadOnly();
-
-
+        public void PrintRequestList()
+       
+        {
+        foreach (Request request in _requestList)
+            {
+                Console.WriteLine($"Navn: {request.Name} | Kontakinfo mail eller telefon: {request.ContactInfo} | Dato: {request.Date} | Spil: {request.CustomerCriteria}\n");
+                
+            }
+        }
+            
         // printer både game og edition ud sammen
         public void PrintGameList()
         {
             foreach (Game game in _gameList)
             {
-                Console.WriteLine($"Name: {game.Name}Genre: {game.Genre}Player Count: {game.PlayerCount}Antal: {game.Amount}");
+                Console.WriteLine($"Name: {game.Name} | Genre: {game.Genre} | Player Count: {game.PlayerCount} | Antal: {game.Amount}");
                 game.GetAvailableEditions();// printer Editions ud ind under Game list. 
                 Console.WriteLine();
             }
         }
+
 
 
     }
