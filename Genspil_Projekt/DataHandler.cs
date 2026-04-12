@@ -130,27 +130,26 @@ namespace Genspil_Projekt
 
 
         // request Load
-        public List<Request> LoadRequestFromFile()
+        public List<Request> LoadRequestsFromFile()
         {
-            List<Request> request = new List<Request>();
+            List<Request> requests = new List<Request>();
 
-            using (StreamReader sr = new StreamReader(FilePath)) //Åbner filen til læsning
+            if (!File.Exists(FilePath))
+                return requests;
+
+            using (StreamReader sr = new StreamReader(FilePath))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
                     if (!string.IsNullOrWhiteSpace(line))
                     {
-                        // Vi kigger på den første del af linjen for at se typen
-                        request.Add(Request.FromString(line));
-
-
+                        requests.Add(Request.FromString(line));
                     }
                 }
-
             }
 
-            return request;
+            return requests;
         }
 
 

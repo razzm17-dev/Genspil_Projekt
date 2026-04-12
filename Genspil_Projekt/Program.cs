@@ -1,4 +1,4 @@
-﻿using System.Runtime.ConstrainedExecution;
+﻿
 
 namespace Genspil_Projekt
 {
@@ -6,19 +6,6 @@ namespace Genspil_Projekt
     {
         static void Main(string[] args)
         {
-
-
-
-            
-
-         
-
-
-
-
-
-
-
             DataHandler gameHandler = new DataHandler("games.txt");
             DataHandler requestHandler = new DataHandler("requests.txt");
 
@@ -30,7 +17,7 @@ namespace Genspil_Projekt
             List<Game> loadedGames = gameHandler.LoadEverything();
             foreach (var g in loadedGames) storage.AddGameToList(g);
 
-            List<Request> loadedRequests = requestHandler.LoadRequestFromFile();
+            List<Request> loadedRequests = requestHandler.LoadRequestsFromFile();
             foreach (var r in loadedRequests) storage.AddRequest(r);
 
             while (true)
@@ -87,7 +74,7 @@ namespace Genspil_Projekt
                         break;
                     case 8:
                         Console.Clear();
-                        requestHandler.LoadRequestFromFile();
+                        storage.PrintRequestList();
                         break;
                     case 9:
                         Console.Clear();
@@ -111,8 +98,6 @@ namespace Genspil_Projekt
                 //storage.SearchForName("daybreak");
                 //storage.SearchForGenre("samarbejde");
                 Console.ReadLine();
-
-
             }
         }
     }
