@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Genspil_Projekt
 {
-    internal class Request
+    public class Request
     {
         private string _name, _status;
         private string _contactInfo;
@@ -21,10 +22,33 @@ namespace Genspil_Projekt
         {
             _name = name;
             _contactInfo = contactInfo;
-            _date = DateTime.Now;
+            _date = date;
             _customerCriteria = customerCriteria;
         }
+        public override string ToString()
+        {
+            // Vi bruger InvariantCulture for at tvinge punktum som decimaltegn (f.eks. 18.2 i stedet for 18,2)
+            // Dette sikrer, at filen kan læses på alle computere.
+            return string.Format(CultureInfo.InvariantCulture,
+                "{0},{1},{2},{3}",
+                Name, ContactInfo, Date, CustomerCriteria);
+        }
 
-     
+        public static Request FromString(string data)
+        {
+            string[] parts = data.Split(',');
+            {
+                string Name = parts[0];
+                string ContactInfo = parts[1];
+                DateTime Date = DateTime.Parse(parts[2]);
+                string CustomerCriteria = parts[3];
+
+
+                return new Request(Name, ContactInfo, Date, CustomerCriteria);
+            }
+
+
+        }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Genspil_Projekt
+﻿using System.Runtime.ConstrainedExecution;
+
+namespace Genspil_Projekt
 {
     internal class Program
     {
@@ -6,7 +8,30 @@
         {
 
 
+
+            
+
+         
+
+
+
+
+
+
+
+            DataHandler gameHandler = new DataHandler("games.txt");
+            DataHandler requestHandler = new DataHandler("requests.txt");
+
+
             StorageManager storage = new StorageManager();
+
+
+            // 2. LOAD: Hent gemte data ind i programmet med det samme
+            List<Game> loadedGames = gameHandler.LoadEverything();
+            foreach (var g in loadedGames) storage.AddGameToList(g);
+
+            List<Request> loadedRequests = requestHandler.LoadRequestFromFile();
+            foreach (var r in loadedRequests) storage.AddRequest(r);
 
             while (true)
             {
@@ -18,11 +43,13 @@
                     "Opret spil",
                     "Slet spil",
                     "Tilføj Spiludgave",
+                    "Slet Spiludgave",
                     "Søg efter spil",
                     "Opret forespørgsel",
                     "Slet forespørgsel",
                     "Se alle forespørgsler",
                     "Udskriv optællingsliste",
+                    "Vis Game og Edition",
                     "Afslut"
                 });
 
@@ -30,38 +57,53 @@
                 {
                     case 1:
                         storage.AddGameFromUserInput();
+                        gameHandler.SaveGamesToFile(storage.GetGameList());
                         break;
                     case 2:
                         storage.RemoveGameFromUserInput();
+                        gameHandler.SaveGamesToFile(storage.GetGameList());
                         break;
                     case 3:
                         storage.CreateEditionFromUserInput();
+                        gameHandler.SaveGamesToFile(storage.GetGameList());
                         break;
                     case 4:
+                        storage.RemoveEditionFromUserInput();
+                        gameHandler.SaveGamesToFile(storage.GetGameList());
+                        break;
+                    case 5:
                         Console.Clear();
                         Console.Write("Indtast søgekriterier ");
                         string query = Console.ReadLine();
                         storage.SearchForGame(query);
                         break;
-                    case 5:
+                    case 6:
                         storage.AddRequestFromUserInput();
-                        break;
-                     case 6:
-                         storage.RemoveRequestFromUserInput();
+                        requestHandler.SaveRequestsToFile(storage.GetRequestList());
                         break;
                     case 7:
-                        storage.PrintRequestList();
+                        storage.RemoveRequestFromUserInput();
+                        requestHandler.SaveRequestsToFile(storage.GetRequestList());
                         break;
                     case 8:
-                        storage.PrintGameList();
+                        Console.Clear();
+                        requestHandler.LoadRequestFromFile();
                         break;
                     case 9:
+                        Console.Clear();
+                        storage.PrintGameList();
+                        break;
+                    case 10:
+                        Console.Clear();
+                        storage.PrintGameAndEditionList();
+                        break;
+                    case 11:
                         Console.WriteLine("Afslut");
                         return;
                 }
 
 
-               // storage.SearchForGame("day");
+                // storage.SearchForGame("day");
 
 
 
@@ -69,6 +111,7 @@
                 //storage.SearchForName("daybreak");
                 //storage.SearchForGenre("samarbejde");
                 Console.ReadLine();
+
 
             }
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Genspil_Projekt
 {
@@ -10,6 +12,10 @@ namespace Genspil_Projekt
         private string _condition;
         private double _price;
         private double _basePrice;
+
+
+
+        public Game Game { get; set; }
 
         public string Edition
         {
@@ -41,6 +47,7 @@ namespace Genspil_Projekt
             _condition = Condition;
             _basePrice = BasePrice;
             _price = CalculatePrice(BasePrice, Condition);
+            Game = game;
         }
 
         //5 % ikke åbnet
@@ -73,6 +80,26 @@ namespace Genspil_Projekt
 
         }
 
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.InvariantCulture,
+                "EDITION,{0},{1},{2},{3}", // Tilføjet "EDITION"
+                Edition, Condition, BasePrice, Price);
+        }
+
+
+
+
+        public static GameEdition FromString(string data, Game parentGame)
+        {
+            string[] parts = data.Split(',');
+            // parts[0] er "EDITION"
+            string editionName = parts[1];
+            string condition = parts[2];
+            double basePrice = double.Parse(parts[3], CultureInfo.InvariantCulture);
+
+            return new GameEdition(editionName, condition, basePrice, parentGame);
+        }
 
     }
-}
+}   

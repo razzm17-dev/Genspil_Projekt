@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
+using System.Reflection;
 using System.Text;
 
 namespace Genspil_Projekt
@@ -13,7 +16,10 @@ namespace Genspil_Projekt
         private int _amount;
         
 
-        private List<GameEdition> _editionList;
+        public List<GameEdition> _editionList;
+
+
+        public string Title { get; set; }
 
         public string Name
         { 
@@ -73,7 +79,34 @@ namespace Genspil_Projekt
 
             }
         }
-        
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.InvariantCulture,
+                "GAME,{0},{1},{2},{3}", // Tilføjet "GAME"
+                Name, Genre, PlayerCount, Amount);
+        }
+
+        public static Game FromString(string data)
+        {
+            string[] parts = data.Split(',');
+            // parts[0] er "GAME"
+            string name = parts[1];
+            string genre = parts[2];
+            string playerCount = parts[3];
+            // parts[4] er Amount, men den genberegnes ofte automatisk
+
+            return new Game(name, genre, playerCount);
+        }
+
+
+
+
+
+
+
+
+
     }
 }
 
