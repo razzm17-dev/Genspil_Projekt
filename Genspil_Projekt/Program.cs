@@ -1,6 +1,4 @@
-﻿
-
-namespace Genspil_Projekt
+﻿namespace Genspil_Projekt
 {
     internal class Program
     {
@@ -9,9 +7,7 @@ namespace Genspil_Projekt
             DataHandler gameHandler = new DataHandler("games.txt");
             DataHandler requestHandler = new DataHandler("requests.txt");
 
-
             StorageManager storage = new StorageManager();
-
 
             // 2. LOAD: Hent gemte data ind i programmet med det samme
             List<Game> loadedGames = gameHandler.LoadEverything();
@@ -36,7 +32,7 @@ namespace Genspil_Projekt
                     "Slet forespørgsel",
                     "Se alle forespørgsler",
                     "Udskriv optællingsliste",
-                    "Vis Game og Edition",
+                    "Udskriv games og editions",
                     "Afslut"
                 });
 
@@ -88,15 +84,6 @@ namespace Genspil_Projekt
                         Console.WriteLine("Afslut");
                         return;
                 }
-
-
-                // storage.SearchForGame("day");
-
-
-
-                //storage.PrintGameList();
-                //storage.SearchForName("daybreak");
-                //storage.SearchForGenre("samarbejde");
                 Console.ReadLine();
             }
         }

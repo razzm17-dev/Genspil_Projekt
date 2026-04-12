@@ -1,47 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
 using System.IO;
 
 namespace Genspil_Projekt
 {
     public class DataHandler
     {
-
-
         public string FilePath { get; set; }
 
         public DataHandler(string filePath)
         {
             FilePath = filePath;
-
         }
-        /*public void SaveGamesToFile(List<Game> games)
-        {
-
-            using (StreamWriter sw = new StreamWriter(FilePath)) // Åbner filen til skrivning
-            {
-
-                foreach (var game in games)
-                {
-                    sw.WriteLine(game.ToString());// Gemmer hver medarbejder som en linje i filen
-
-                }
-
-
-            }
-
-        }*/
-
-
+       
         public void SaveGamesToFile(List<Game> games)
         {
-
             using (StreamWriter sw = new StreamWriter(FilePath)) // Åbner filen til skrivning
             {
-
-
                 foreach (var game in games)
                 {
                     sw.WriteLine(game.ToString());
@@ -51,29 +25,21 @@ namespace Genspil_Projekt
                         sw.WriteLine(edition.ToString());// Gemmer hver medarbejder som en linje i filen
 
                     }
-
                 }
             }
-
         }
 
         public void SaveRequestsToFile(List<Request> requests)
         {
-
             using (StreamWriter sw = new StreamWriter(FilePath)) // Åbner filen til skrivning
             {
-
                 foreach (var request in requests )
                 {
                     sw.WriteLine(request.ToString());// Gemmer hver medarbejder som en linje i filen
 
                 }
-
-
             }
-
         }
-
 
         public List<Game> LoadOnlyGames()
         {
@@ -87,11 +53,6 @@ namespace Genspil_Projekt
             }
             return games;
         }
-
-
-
-
-
         public List<Game> LoadEverything()
         {
             List<Game> games = new List<Game>();
@@ -125,10 +86,6 @@ namespace Genspil_Projekt
             return games;
         }
 
-
-
-
-
         // request Load
         public List<Request> LoadRequestsFromFile()
         {
@@ -148,12 +105,7 @@ namespace Genspil_Projekt
                     }
                 }
             }
-
             return requests;
         }
-
-
-
-
     }
 }

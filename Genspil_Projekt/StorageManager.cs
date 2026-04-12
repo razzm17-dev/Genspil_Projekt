@@ -1,22 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
 
 namespace Genspil_Projekt
 {
     internal class StorageManager
     {
+        // Lister der holder styr på spil og forespørgsler
         private List<Game> _gameList;
         private List<Request> _requestList;
 
+        //Constructor som initialiserer listerne
         public StorageManager()
         {
             // Uden de her to linjer er listerne 'null' (de findes ikke i hukommelsen)
             _gameList = new List<Game>();
             _requestList = new List<Request>();
         }
+
+        // Gettere til at hente listerne, så de kan bruges i andre klasser 
+        public List<Game> GetGameList() => _gameList;
+        public List<Request> GetRequestList() => _requestList;
 
         // Menu metode som tager en liste af string og lader brugeren vælge imellem dem ved hjælp af piletasterne. Returnerer det valgte nummer.
         public int Menu(List<string> mulighedstext)
@@ -72,12 +74,6 @@ namespace Genspil_Projekt
 
             return valg;
         }
-
-
-        public List<Game> GetGameList() => _gameList;
-
-        public List<Request> GetRequestList() => _requestList;
-
 
         //Lader bruger indtaste oplysninger om et nyt spil.
         public void AddGameFromUserInput()
@@ -219,10 +215,7 @@ namespace Genspil_Projekt
             Console.WriteLine("Edition tilføjet!");
         }
      
-        
-
         // Fleksibel søgning på navn, genre, maxPrice og playerCount
-       
         public List<Game> SearchForGame(string query)
         {
             var results = new List<Game>();
@@ -273,7 +266,6 @@ namespace Genspil_Projekt
             {
                 Console.WriteLine($"Intet match fundet for '{query}' (hverken navn eller genre).");
             }
-
             return results;
         }
 
@@ -287,16 +279,13 @@ namespace Genspil_Projekt
             Console.WriteLine("Kontaktinformation mail eller telefon: ");
             string contactinfo = Console.ReadLine();
 
+            DateTime date = DateTime.Now;
+
             Console.WriteLine("Navn på spil: ");
             string customerCriteria = Console.ReadLine();
 
-            DateTime date = DateTime.Now;
-
             // opretter en forespørgsel med de indtastede oplysninger og den aktuelle dato.
-            Request request = new Request(name, contactinfo,date , customerCriteria);
-            
-
-
+            Request request = new Request(name, contactinfo, date, customerCriteria);
             AddRequest(request);
 
             Console.WriteLine("Forespørgsel er tilføjet");
@@ -357,8 +346,6 @@ namespace Genspil_Projekt
              }
          }
 
-
-
         // 1. Finder den specifikke edition via to menuer
         public GameEdition RemoveEditionFromList()
         {
@@ -390,13 +377,10 @@ namespace Genspil_Projekt
 
             GameEdition selected = RemoveEditionFromList();
 
-
-
             if (selected == null)
             {
                 return; // Besked er givet i RemoveEditionFromList
             }
-
 
             // Vi fjerner editionen fra spillets egen liste
             RemoveEdition(selected);
@@ -405,21 +389,7 @@ namespace Genspil_Projekt
                 selected.Game.Amount--; // Trækker 1 fra beholdningen
             }
             Console.WriteLine($"Udgaver '{selected.Edition}' er nu fjernet fra spillet.");
-
-            
-
-           
         }
-
-
-
-        
-
-
-
-
-
-
 
         // 3. Selve sletningen fra objektets liste
         public void RemoveEdition(GameEdition edition)
@@ -432,25 +402,6 @@ namespace Genspil_Projekt
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         // Printer alle requets
         public void PrintRequestList()
        
@@ -461,8 +412,6 @@ namespace Genspil_Projekt
                 
             }
         }
-            
-
 
         // printer både game og edition ud sammen
         public void PrintGameList()
@@ -483,7 +432,5 @@ namespace Genspil_Projekt
                 Console.WriteLine();
             }
         }
-
-
     }
 }

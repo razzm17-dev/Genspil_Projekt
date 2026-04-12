@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
-using System.Xml.Linq;
 
 namespace Genspil_Projekt
 {
@@ -12,9 +9,6 @@ namespace Genspil_Projekt
         private string _condition;
         private double _price;
         private double _basePrice;
-
-
-
         public Game Game { get; set; }
 
         public string Edition
@@ -77,7 +71,6 @@ namespace Genspil_Projekt
             }
 
             return BasePrice * (1 - discount);
-
         }
 
         public override string ToString()
@@ -86,9 +79,6 @@ namespace Genspil_Projekt
                 "EDITION,{0},{1},{2},{3}", // Tilføjet "EDITION"
                 Edition, Condition, BasePrice, Price);
         }
-
-
-
 
         public static GameEdition FromString(string data, Game parentGame)
         {
@@ -100,6 +90,5 @@ namespace Genspil_Projekt
 
             return new GameEdition(editionName, condition, basePrice, parentGame);
         }
-
     }
 }   

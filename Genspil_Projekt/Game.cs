@@ -1,10 +1,5 @@
-﻿using Microsoft.VisualBasic.FileIO;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System;
 using System.Globalization;
-using System.Reflection;
-using System.Text;
 
 namespace Genspil_Projekt
 {
@@ -14,10 +9,8 @@ namespace Genspil_Projekt
         private string _genre;
         private string _playerCount;
         private int _amount;
-        
 
         public List<GameEdition> _editionList;
-
 
         public string Title { get; set; }
 
@@ -44,7 +37,6 @@ namespace Genspil_Projekt
             set { _amount = value; }
         }
 
-    
         public Game(string name, string genre, string playerCount)
         {
             Name = name;
@@ -98,19 +90,5 @@ namespace Genspil_Projekt
 
             return new Game(name, genre, playerCount);
         }
-
-
-
-
-
-
-
-
-
     }
 }
-
-
-
-    
-
