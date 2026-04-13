@@ -67,8 +67,7 @@ namespace Genspil_Projekt
         {
             foreach (var ed in _editionList)
             {
-            Console.WriteLine ($"Udgave: {ed.Edition}, Stand: {ed.Condition}, Pris: {ed.Price} kr., Antal: {Amount}\n");
-
+            Console.WriteLine ($"Udgave: {ed.Game._name} {ed.Edition} | Stand: {ed.Condition} | Pris: {ed.Price} kr. | Antal: {Amount}");
             }
         }
 

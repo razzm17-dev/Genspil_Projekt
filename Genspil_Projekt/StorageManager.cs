@@ -71,10 +71,10 @@ namespace Genspil_Projekt
                         break;
                 }
             }
-
             return valg;
         }
 
+        //######################################## SPIL LOGIK ########################################
         //Lader bruger indtaste oplysninger om et nyt spil.
         public void AddGameFromUserInput()
         {
@@ -92,11 +92,12 @@ namespace Genspil_Projekt
             Game newGame = new Game(name, genre, playerCount);
            
            
-            //Anvender herefter AddGame for at tilføje det til listen.
+            //Anvender herefter AddGameToList for at tilføje det til listen.
             AddGameToList(newGame);
 
             Console.WriteLine("Spillet er tilføjet.");
         }
+
         //Tilføjer et spil til listen og sorterer i listen alfabetisk efter spillets navn. 
         public void AddGameToList(Game game)
         {
@@ -139,7 +140,7 @@ namespace Genspil_Projekt
             }
 
             RemoveGame(selected);
-            Console.WriteLine($"Spillet '{selected.Name}' er nu fjernet fra listen.");
+            Console.WriteLine($"\nSpillet '{selected.Name}' er nu fjernet fra listen.");
         }
         //Sletter et spil fra listen. 
         public void RemoveGame(Game game) 
@@ -150,71 +151,6 @@ namespace Genspil_Projekt
             }
         }
 
-        //Opretter liste over spil som brugeren kan vælge imellem.
-        public Game SelectGameTypeFromList()
-        {
-            if (_gameList.Count == 0)
-            {
-                Console.WriteLine("Der er ingen spil i listen.");
-                return null;
-            }
-
-            Console.WriteLine("\nVælg et spil:");
-            for (int i = 0; i < _gameList.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}) {_gameList[i].Name}");
-            }
-
-            int choice;
-            while (true)
-            {
-                Console.Write("Indtast nummer: ");
-                if (int.TryParse(Console.ReadLine(), out choice) &&
-                    choice >= 1 && choice <= _gameList.Count)
-                {
-                    return _gameList[choice - 1];
-                }
-
-                Console.WriteLine("Ugyldigt valg. Prøv igen.");
-            }
-        }
-        public void CreateEditionFromUserInput()
-        {
-            // 1) Brugeren vælger spillet
-            
-            Game game = SelectGameTypeFromList();
-            if (game == null)
-            {
-                Console.WriteLine("Intet spil valgt.");
-                return;
-            }
-                        // 2) Brugeren indtaster edition-data
-            Console.Clear();
-            Console.Write("Indtast edition navn: ");
-            string editionName = Console.ReadLine();
-
-            Console.Write("Indtast stand (Ikke åbnet, God stand, Ok stand eller Dårlig stan): ");
-            string condition = Console.ReadLine();
-
-            double price;
-            while (true)
-            {
-                Console.Write("Indtast basepris: ");
-                if (double.TryParse(Console.ReadLine(), out price))
-                    break;
-
-                Console.WriteLine("Ugyldig pris. Prøv igen.");
-            }
-
-            //  Opretter GameEdition objekt
-            var newEdition = new GameEdition(editionName, condition, price, game);
-
-            // Tilføjer edition til spillet
-            game.AddEdition(newEdition);
-
-            Console.WriteLine("Edition tilføjet!");
-        }
-     
         // Fleksibel søgning på navn, genre, maxPrice og playerCount
         public List<Game> SearchForGame(string query)
         {
@@ -269,6 +205,129 @@ namespace Genspil_Projekt
             return results;
         }
 
+        //######################################## EDITION LOGIK ########################################
+        //Opretter liste over spil som brugeren kan vælge imellem.
+        public Game SelectGameTypeFromList()
+        {
+            if (_gameList.Count == 0)
+            {
+                Console.WriteLine("Der er ingen spil i listen.");
+                return null;
+            }
+
+            Console.WriteLine("\nVælg et spil:");
+            for (int i = 0; i < _gameList.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}) {_gameList[i].Name}");
+            }
+
+            int choice;
+            while (true)
+            {
+                Console.Write("Indtast nummer: ");
+                if (int.TryParse(Console.ReadLine(), out choice) &&
+                    choice >= 1 && choice <= _gameList.Count)
+                {
+                    return _gameList[choice - 1];
+                }
+
+                Console.WriteLine("Ugyldigt valg. Prøv igen.");
+            }
+        }
+        public void CreateEditionFromUserInput()
+        {
+            // 1) Brugeren vælger spillet
+            
+            Game game = SelectGameTypeFromList();
+            if (game == null)
+            {
+                Console.WriteLine("Intet spil valgt.");
+                return;
+            }
+                        // 2) Brugeren indtaster edition-data
+            Console.Clear();
+            Console.Write("Indtast edition navn: ");
+            string editionName = Console.ReadLine();
+
+            Console.Write("Indtast stand (Ikke åbnet, God stand, Ok stand eller Dårlig stand): ");
+            string condition = Console.ReadLine();
+
+            double price;
+            while (true)
+            {
+                Console.Write("Indtast basepris: ");
+                if (double.TryParse(Console.ReadLine(), out price))
+                    break;
+
+                Console.WriteLine("Ugyldig pris. Prøv igen.");
+            }
+
+            //  Opretter GameEdition objekt
+            var newEdition = new GameEdition(editionName, condition, price, game);
+
+            // Tilføjer edition til spillet
+            game.AddEdition(newEdition);
+
+            Console.WriteLine("Edition tilføjet!");
+        }
+
+        // 1. Finder den specifikke edition via to menuer
+        public GameEdition RemoveEditionFromList()
+        {
+            // Først vælger vi spillet (Vi genbruger din eksisterende metode her)
+            Game selectedGame = SelectGameTypeFromList();
+
+            if (selectedGame == null || selectedGame._editionList.Count == 0)
+            {
+                Console.WriteLine("Dette spil har ingen udgaver, eller intet spil blev valgt.");
+                return null;
+            }
+
+            // Vi laver en liste af strings over de udgaver, der findes på det valgte spil
+            List<string> editionStrings = selectedGame._editionList
+                .Select(e => $"{e.Edition} - Stand: {e.Condition} - Pris: {e.Price} kr.")
+                .ToList();
+
+            Console.WriteLine($"Vælg den udgave af '{selectedGame.Name}', der skal fjernes:");
+
+            int valg = Menu(editionStrings);
+
+            return selectedGame._editionList[valg - 1];
+        }
+
+        // 2. Håndterer brugerinteraktionen
+        public void RemoveEditionFromUserInput()
+        {
+            Console.Clear();
+
+            GameEdition selected = RemoveEditionFromList();
+
+            if (selected == null)
+            {
+                return; // Besked er givet i RemoveEditionFromList
+            }
+
+            // Vi fjerner editionen fra spillets egen liste
+            RemoveEdition(selected);
+            if (selected.Game.Amount > 0)
+            {
+                selected.Game.Amount--; // Trækker 1 fra beholdningen
+            }
+            Console.WriteLine($"Udgaver '{selected.Edition}' er nu fjernet fra spillet.");
+        }
+
+        // 3. Selve sletningen fra objektets liste
+        public void RemoveEdition(GameEdition edition)
+        {
+            // Vi bruger referencen til 'ParentGame' for at finde ud af, hvilken liste vi skal slette fra
+            if (edition != null && edition.Game != null)
+            {
+                edition.Game._editionList.Remove(edition);
+
+            }
+        }
+
+        //######################################## REQUEST LOGIK ########################################
         // Lader brugeren indtaste oplysninger om en forespørgsel og opretter et request-objekt. Anvender herefter AddRequest for at tilføje det til listen.
         public void AddRequestFromUserInput()
         {
@@ -346,70 +405,14 @@ namespace Genspil_Projekt
              }
          }
 
-        // 1. Finder den specifikke edition via to menuer
-        public GameEdition RemoveEditionFromList()
-        {
-            // Først vælger vi spillet (Vi genbruger din eksisterende metode her)
-            Game selectedGame = SelectGameTypeFromList();
-
-            if (selectedGame == null || selectedGame._editionList.Count == 0)
-            {
-                Console.WriteLine("Dette spil har ingen udgaver, eller intet spil blev valgt.");
-                return null;
-            }
-
-            // Vi laver en liste af strings over de udgaver, der findes på det valgte spil
-            List<string> editionStrings = selectedGame._editionList
-                .Select(e => $"{e.Edition} - Stand: {e.Condition} - Pris: {e.Price} kr.")
-                .ToList();
-
-            Console.WriteLine($"Vælg den udgave af '{selectedGame.Name}', der skal fjernes:");
-
-            int valg = Menu(editionStrings);
-
-            return selectedGame._editionList[valg - 1];
-        }
-
-        // 2. Håndterer brugerinteraktionen
-        public void RemoveEditionFromUserInput()
-        {
-            Console.Clear();
-
-            GameEdition selected = RemoveEditionFromList();
-
-            if (selected == null)
-            {
-                return; // Besked er givet i RemoveEditionFromList
-            }
-
-            // Vi fjerner editionen fra spillets egen liste
-            RemoveEdition(selected);
-            if (selected.Game.Amount > 0)
-            {
-                selected.Game.Amount--; // Trækker 1 fra beholdningen
-            }
-            Console.WriteLine($"Udgaver '{selected.Edition}' er nu fjernet fra spillet.");
-        }
-
-        // 3. Selve sletningen fra objektets liste
-        public void RemoveEdition(GameEdition edition)
-        {
-            // Vi bruger referencen til 'ParentGame' for at finde ud af, hvilken liste vi skal slette fra
-            if (edition != null && edition.Game != null)
-            {
-                edition.Game._editionList.Remove(edition);
-
-            }
-        }
-
-        // Printer alle requets
+        //######################################## PRINT LOGIK ########################################
+        // Printer alle requests
         public void PrintRequestList()
        
         {
         foreach (Request request in _requestList)
             {
-                Console.WriteLine($"Navn: {request.Name} | Kontakinfo mail eller telefon: {request.ContactInfo} | Dato: {request.Date} | Spil: {request.CustomerCriteria}\n");
-                
+                Console.WriteLine($"Navn: {request.Name} | Kontaktinfo (mail/telefon): {request.ContactInfo} | Dato: {request.Date} | Spil: {request.CustomerCriteria}\n");
             }
         }
 
@@ -419,8 +422,7 @@ namespace Genspil_Projekt
             foreach (Game game in _gameList)
             {
                 Console.WriteLine($"Name: {game.Name} | Genre: {game.Genre} | Player Count: {game.PlayerCount} | Antal: {game.Amount}");
-             
-                Console.WriteLine();
+                Console.WriteLine("--------------------------------------------------------------------");
             }
         }
         public void PrintGameAndEditionList()
@@ -429,7 +431,7 @@ namespace Genspil_Projekt
             {
                 Console.WriteLine($"Name: {game.Name} | Genre: {game.Genre} | Player Count: {game.PlayerCount} | Antal: {game.Amount}");
                 game.GetAvailableEditions();// printer Editions ud ind under Game list. 
-                Console.WriteLine();
+                Console.WriteLine("--------------------------------------------------------------------");
             }
         }
     }

@@ -81,7 +81,7 @@
                         storage.PrintGameAndEditionList();
                         break;
                     case 11:
-                        Console.WriteLine("Afslut");
+                        Console.WriteLine("Afslutter...");
                         return;
                 }
                 Console.ReadLine();

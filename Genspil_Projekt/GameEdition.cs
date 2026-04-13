@@ -7,8 +7,9 @@ namespace Genspil_Projekt
     {
         private string _edition;
         private string _condition;
-        private double _price;
         private double _basePrice;
+        private double _price;
+        
         public Game Game { get; set; }
 
         public string Edition
@@ -35,12 +36,12 @@ namespace Genspil_Projekt
             set { _price = value; }
         }
 
-        public GameEdition(string Edition, string Condition, double BasePrice, Game game)
+        public GameEdition(string edition, string condition, double basePrice, Game game)
         {
-            _edition = Edition;
-            _condition = Condition;
-            _basePrice = BasePrice;
-            _price = CalculatePrice(BasePrice, Condition);
+            Edition = edition;
+            Condition = condition;
+            BasePrice = basePrice;
+            Price = CalculatePrice(basePrice, condition);
             Game = game;
         }
 

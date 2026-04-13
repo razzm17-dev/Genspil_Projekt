@@ -18,10 +18,10 @@ namespace Genspil_Projekt
 
         public Request(string name, string contactInfo, DateTime date, string customerCriteria)
         {
-            _name = name;
-            _contactInfo = contactInfo;
-            _date = date;
-            _customerCriteria = customerCriteria;
+            Name = name;
+            ContactInfo = contactInfo;
+            Date = date;
+            CustomerCriteria = customerCriteria;
         }
         public override string ToString()
         {
