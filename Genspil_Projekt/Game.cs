@@ -65,6 +65,50 @@ namespace Genspil_Projekt
             }
         }
 
+        //Lader brugeren vælge et spil fra listen over udgaver og returnerer det valgte spil. Hvis der ikke er nogen udgaver, informeres brugeren.
+        public GameEdition SelectEditionFromList()
+        {
+            if (_editionList.Count == 0)
+            {
+                Console.WriteLine("Der er ingen editions for dette spil.");
+                return null;
+            }
+
+            Console.WriteLine($"\nVælg en udgave af {Name}:");
+
+            for (int i = 0; i < _editionList.Count; i++)
+            {
+                var ed = _editionList[i];
+                Console.WriteLine($"{i + 1}) {ed.Edition} - {ed.Condition} - {ed.Price} kr.");
+            }
+
+            int choice;
+            while (true)
+            {
+                Console.Write("Indtast nummer: ");
+                if (int.TryParse(Console.ReadLine(), out choice) &&
+                    choice >= 1 && choice <= _editionList.Count)
+                {
+                    return _editionList[choice - 1];
+                }
+
+                Console.WriteLine("Ugyldigt valg. Prøv igen.");
+            }
+        }
+
+        //Fjerner udgave af spillet hvis den fines på listen. 
+        public bool RemoveEdition(GameEdition edition)
+        {
+            if (edition == null) return false;
+
+            bool removed = _editionList.Remove(edition);
+
+            if (removed)
+                Amount = _editionList.Count;
+
+            return removed;
+        }
+        // Viser alle udgaver af spillet
         public void GetAvailableEditions()
         {
             foreach (var ed in _editionList)

@@ -18,6 +18,7 @@
                     "Opret spil",
                     "Slet spil",
                     "Tilføj Spiludgave",
+                    "Slet Spiludgave",
                     "Søg efter spil",
                     "Opret forespørgsel",
                     "Slet forespørgsel",
@@ -38,24 +39,27 @@
                         storage.CreateEditionFromUserInput();
                         break;
                     case 4:
+                        storage.RemoveEditionFromUserInput();
+                        break;
+                    case 5:
                         Console.Clear();
                         Console.Write("Indtast søgekriterier ");
                         string query = Console.ReadLine();
                         storage.SearchForGame(query);
                         break;
-                    case 5:
+                    case 6:
                         storage.AddRequestFromUserInput();
                         break;
-                     case 6:
+                     case 7:
                          storage.RemoveRequestFromUserInput();
                         break;
-                    case 7:
+                    case 8:
                         storage.PrintRequestList();
                         break;
-                    case 8:
+                    case 9:
                         storage.PrintGameList();
                         break;
-                    case 9:
+                    case 10:
                         Console.WriteLine("Afslut");
                         return;
                 }

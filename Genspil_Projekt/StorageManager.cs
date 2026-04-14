@@ -214,12 +214,37 @@ namespace Genspil_Projekt
 
             Console.WriteLine("Edition tilføjet!");
         }
-     
-        
+
+
+        public void RemoveEditionFromUserInput()
+        {
+            Console.Clear();
+
+            // 1) Vælg spil
+            Game game = SelectGameTypeFromList();
+            if (game == null)
+            {
+                Console.WriteLine("Intet spil valgt.");
+                return;
+            }
+
+            // 2) Vælg edition
+            GameEdition edition = game.SelectEditionFromList();
+            if (edition == null)
+            {
+                Console.WriteLine("Ingen udgave valgt.");
+                return;
+            }
+
+            // 3) Fjern edition
+            if (game.RemoveEdition(edition))
+                Console.WriteLine("Udgave fjernet.");
+            else
+                Console.WriteLine("Kunne ikke fjerne udgaven.");
+        }
 
         // Fleksibel søgning på navn, genre, maxPrice og playerCount
-       
-        public List<Game> SearchForGame(string query)
+           public List<Game> SearchForGame(string query)
         {
             var results = new List<Game>();
 
