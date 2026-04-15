@@ -10,11 +10,31 @@ namespace Genspil_Projekt
         private DateTime _date;
         private string _customerCriteria;
 
-        public string Name { get => _name; set => _name = value; }
-        public string Status { get => _status; set => _status = value; }
-        public string ContactInfo { get => _contactInfo; set => _contactInfo = value; }
-        public DateTime Date { get => _date; set => _date = value; }
-        public string CustomerCriteria { get => _customerCriteria; set => _customerCriteria = value; }
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+        public string Status 
+        { 
+            get { return _status; }
+            set { _status = value; }
+        }
+        public string ContactInfo 
+        {
+            get { return _contactInfo; }
+            set { _contactInfo = value; }
+        }
+        public DateTime Date 
+        {
+            get { return _date; }
+            set { _date = value; }
+        }
+        public string CustomerCriteria
+        {
+            get { return _customerCriteria; }
+            set { _customerCriteria = value; }
+        }
 
         public Request(string name, string contactInfo, DateTime date, string customerCriteria)
         {
@@ -44,8 +64,6 @@ namespace Genspil_Projekt
 
                 return new Request(Name, ContactInfo, Date, CustomerCriteria);
             }
-
-
         }
 
     }
