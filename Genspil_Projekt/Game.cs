@@ -12,8 +12,6 @@ namespace Genspil_Projekt
 
         public List<GameEdition> _editionList;
 
-        public string Title { get; set; }
-
         public string Name
         { 
         get { return _name; }

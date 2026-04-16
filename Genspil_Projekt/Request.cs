@@ -5,7 +5,7 @@ namespace Genspil_Projekt
 {
     public class Request
     {
-        private string _name, _status;
+        private string _name;
         private string _contactInfo;
         private DateTime _date;
         private string _customerCriteria;
@@ -15,11 +15,7 @@ namespace Genspil_Projekt
             get { return _name; }
             set { _name = value; }
         }
-        public string Status 
-        { 
-            get { return _status; }
-            set { _status = value; }
-        }
+        
         public string ContactInfo 
         {
             get { return _contactInfo; }
